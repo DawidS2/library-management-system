@@ -1,0 +1,13 @@
+{% for message in app.flashes('success') %}
+    {{ message }}
+{% endfor %}
+
+<table>
+    {% for category in categories %}
+        <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td><a href="{{ path('admin_category_edit', {'id': category.id}) }}">Edytuj</a></td>
+        </tr>
+    {% endfor %}
+</table>

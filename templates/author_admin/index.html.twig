@@ -1,0 +1,14 @@
+{% for message in app.flashes('success') %}
+    {{ message }}
+{% endfor %}
+
+<table>
+{% for author in authors %}
+    <tr>
+        <td>{{ author.id }}</td>
+        <td>{{ author.name }}</td>
+        <td>{{ author.surname }}</td>
+        <td><a href="{{ path('admin_author_edit', {'id': author.id}) }}">Edytuj</a></td>
+    </tr>
+{% endfor %}
+</table>
