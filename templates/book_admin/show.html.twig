@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+{{ book.id }}<br>
+    {{ book.title }}<br>
+    <ul>
+        {% for author in book.authors %}
+            <li>{{ author.name }} {{ author.surname }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for category in book.categories %}
+            <li>{{ category }}</li>
+        {% endfor %}
+    </ul>
+    ISBN: {{ book.isbn }}<br>
+    Ilość stron: {{ book.numberOfPages }}
+{% endblock %}
+
