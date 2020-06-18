@@ -6,6 +6,10 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+        {{ app.user.email }}
+        <a href="{{ path('logout') }}">Wyloguj</a>
+    {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
