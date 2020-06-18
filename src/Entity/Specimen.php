@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SpecimenRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -27,6 +29,16 @@ class Specimen
      * @ORM\Column(type="boolean")
      */
     private $forRent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Rent::class, mappedBy="Specimen")
+     */
+    private $rents;
+
+    public function __construct()
+    {
+        $this->rents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -53,6 +65,37 @@ class Specimen
     public function setForRent(bool $forRent): self
     {
         $this->forRent = $forRent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rent[]
+     */
+    public function getRents(): Collection
+    {
+        return $this->rents;
+    }
+
+    public function addRent(Rent $rent): self
+    {
+        if (!$this->rents->contains($rent)) {
+            $this->rents[] = $rent;
+            $rent->setSpecimen($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRent(Rent $rent): self
+    {
+        if ($this->rents->contains($rent)) {
+            $this->rents->removeElement($rent);
+            // set the owning side to null (unless already changed)
+            if ($rent->getSpecimen() === $this) {
+                $rent->setSpecimen(null);
+            }
+        }
 
         return $this;
     }
