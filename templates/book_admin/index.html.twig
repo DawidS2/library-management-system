@@ -16,6 +16,9 @@
                     {{ author.name }} {{ author.surname }}
                 {% endfor %}
             </td>
+            <td>
+                Liczba egzemplarzy: {{ book.specimens|length }}
+            </td>
             <td><a href="{{ path('admin_book_edit', {'id': book.id}) }}">Edytuj</a></td>
         </tr>
     {% endfor %}

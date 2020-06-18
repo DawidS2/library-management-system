@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Specimen;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -64,8 +65,22 @@ class BookAdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Book $data */
             $data = $form->getData();
+            $numberOfSpecimen = $form->get('numberOfSpecimen')->getData();
 
             $this->entityManager->persist($data);
+
+            /**
+             * Create $i specimens of book
+             */
+            for ($i = 0; $i<$numberOfSpecimen; $i++) {
+                $specimen = new Specimen();
+                $specimen
+                    ->setBook($data)
+                    ->setForRent(true)
+                ;
+                $this->entityManager->persist($specimen);
+            }
+
             $this->entityManager->flush();
 
             $this->addFlash('success', sprintf("Pomyślnie dodano rekord o ID: %d", $data->getId()));
