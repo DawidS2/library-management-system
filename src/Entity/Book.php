@@ -54,10 +54,16 @@ class Book
      */
     private $categories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Specimen::class, mappedBy="book")
+     */
+    private $specimens;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->specimens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,6 +178,37 @@ class Book
     {
         if ($this->categories->contains($category)) {
             $this->categories->removeElement($category);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Specimen[]
+     */
+    public function getSpecimens(): Collection
+    {
+        return $this->specimens;
+    }
+
+    public function addSpecimen(Specimen $specimen): self
+    {
+        if (!$this->specimens->contains($specimen)) {
+            $this->specimens[] = $specimen;
+            $specimen->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpecimen(Specimen $specimen): self
+    {
+        if ($this->specimens->contains($specimen)) {
+            $this->specimens->removeElement($specimen);
+            // set the owning side to null (unless already changed)
+            if ($specimen->getBook() === $this) {
+                $specimen->setBook(null);
+            }
         }
 
         return $this;
