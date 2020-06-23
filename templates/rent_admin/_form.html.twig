@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+
+{{ form_row(form.reader) }}
+{{ form_row(form.book) }}
+<div class="specimen">
+    {% if form.Specimen is defined %}
+        {{ form_row(form.Specimen) }}
+    {% endif %}
+</div>
+{% if form.rentTo is defined %}
+    {{ form_row(form.rentTo) }}
+{% endif %}
+<button type="submit">{{ button_value }}</button>
+{{ form_end(form) }}

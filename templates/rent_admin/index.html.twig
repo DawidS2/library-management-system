@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello RentController!{% endblock %}
+
+{% block body %}
+<table>
+    {% for activeRent in activeRents %}
+        <tr>
+            <td>{{ activeRent.reader.email }}</td>
+            <td>{{ activeRent.specimen.book.title }}</td>
+            <td>
+                {{ activeRent.rentTo|date }}
+                {% if date('now') > activeRent.rentTo %}
+                    <span style="color:#ff0000;">Po terminie!</span>
+                {% endif %}
+            </td>
+            <td><a href="{{ path('admin_rent_edit', {'id': activeRent.id}) }}">Edytuj</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
