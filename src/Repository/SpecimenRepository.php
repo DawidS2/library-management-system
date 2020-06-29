@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Specimen;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,14 @@ class SpecimenRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Specimen::class);
+    }
+
+    public static function getLastRent()
+    {
+        return Criteria::create()
+            ->orderBy(['id' => Criteria::DESC])
+            ->setMaxResults(1)
+            ;
     }
 
     // /**

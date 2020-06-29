@@ -34,7 +34,6 @@ class BookAdminController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
     /**
      * List of all books
      *

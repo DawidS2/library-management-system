@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    Tytuł: {{ book.title }}
+    <table>
+        <tr>
+            <th>Do wypożyczenia</th>
+            <th>Data zwrotu</th>
+        </tr>
+    {% for specimen in book.specimens %}
+        <tr>
+{#            <td>{{ specimen.id }}</td>#}
+            <td>{{ specimen.forRent ? "Tak"  : "Nie" }}</td>
+            <td>
+                {% if specimen.lastRent is not null and not specimen.lastRent.isReturned %}
+                    {{ specimen.lastRent.rentTo|date("d/m/Y") }}
+                {% endif %}
+                
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

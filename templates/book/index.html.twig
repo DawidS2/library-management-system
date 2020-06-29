@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+    <form method="get">
+        <input type="search" name="q" value="{{ query }}">
+        <select name="field" id="">
+            <option value="title">Tytuł</option>
+            <option value="isbn">ISBN</option>
+        </select>
+        <button type="submit">Szukaj</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>ISBN</th>
+            <th>Tytuł</th>
+            <th>Autorzy</th>
+        </tr>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.authors|join(',') }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

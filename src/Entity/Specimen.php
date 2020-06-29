@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SpecimenRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -98,5 +99,16 @@ class Specimen
         }
 
         return $this;
+    }
+
+    public function getLastRent(): ?Rent
+    {
+        $getLastRentCriteria = SpecimenRepository::getLastRent();
+
+        if (null !== $this->getRents()->matching($getLastRentCriteria)[0]) {
+            return $this->getRents()->matching($getLastRentCriteria)[0];
+        }
+
+        return null;
     }
 }
