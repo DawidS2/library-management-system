@@ -5,19 +5,23 @@
 {% endblock %}
 
 {% block body %}
-{{ book.id }}<br>
-    {{ book.title }}<br>
-    <ul>
-        {% for author in book.authors %}
-            <li>{{ author.name }} {{ author.surname }}</li>
-        {% endfor %}
-    </ul>
-    <ul>
-        {% for category in book.categories %}
-            <li>{{ category }}</li>
-        {% endfor %}
-    </ul>
-    ISBN: {{ book.isbn }}<br>
-    Ilość stron: {{ book.numberOfPages }}
+
+    <div class="card w-100">
+        <div class="card-body">
+            <h5 class="card-title">[id:{{ book.id }}] {{ book.title }}</h5>
+            <p class="card-text">
+            <ul class="list-group">
+                <li class="list-group-item"><span class="font-weight-bold">ISBN: </span>{{ book.isbn }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Stron: </span>{{ book.numberOfPages }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Kategorie: </span>{{ book.categories|join(', ') }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Autorzy: </span>{{ book.authors|join(', ') }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Opis: </span>{{ book.description }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Liczba egzemplarzy: </span>{{ book.specimens|length }}</li>
+            </ul>
+            </p>
+            <a href="{{ path('admin_book_edit', {'id': book.id}) }}" class="btn btn-primary btn-block">Edytuj</a>
+        </div>
+
+    </div>
 {% endblock %}
 

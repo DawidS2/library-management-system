@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Book;
 use App\Entity\Rent;
 use App\Entity\Specimen;
+use App\Form\DataTransformer\BookToIsbnTransformer;
 use App\Form\DataTransformer\IdToUserTransformer;
 use App\Form\Model\RentFormModel;
 use App\Repository\BookRepository;
@@ -26,7 +27,7 @@ class RentType extends AbstractType
     /**
      * @var IdToUserTransformer
      */
-    private $transformer;
+    private $idToUserTransformer;
     /**
      * @var BookRepository
      */
@@ -35,29 +36,33 @@ class RentType extends AbstractType
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
+    /**
+     * @var BookToIsbnTransformer
+     */
+    private $bookToIsbnTransformer;
 
 
     /**
      * RentType constructor.
-     * @param IdToUserTransformer $transformer
+     * @param IdToUserTransformer $idToUserTransformer
+     * @param BookToIsbnTransformer $bookToIsbnTransformer
      * @param BookRepository $bookRepository
      * @param UrlGeneratorInterface $urlGenerator
      */
-    public function __construct(IdToUserTransformer $transformer, BookRepository $bookRepository, UrlGeneratorInterface $urlGenerator)
+    public function __construct(IdToUserTransformer $idToUserTransformer, BookToIsbnTransformer $bookToIsbnTransformer, BookRepository $bookRepository, UrlGeneratorInterface $urlGenerator)
     {
-        $this->transformer = $transformer;
+        $this->idToUserTransformer = $idToUserTransformer;
         $this->bookRepository = $bookRepository;
         $this->urlGenerator = $urlGenerator;
+        $this->bookToIsbnTransformer = $bookToIsbnTransformer;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('book', EntityType::class, [
-                'class' => Book::class,
-                'choice_label' => 'title',
-                'mapped' => false,
-                'attr' => ['class' => 'isbn']
+            ->add('book', TextType::class, [
+                'attr' => ['class' => 'isbn'],
+                'mapped' => false
             ])
             ->add('reader', TextType::class, [
             ])
@@ -65,6 +70,10 @@ class RentType extends AbstractType
         if (null !== $builder->getData() && null !== $builder->getData()->getId()) {
             $builder->add('rentTo');
         }
+
+        $builder->get('book')
+            ->addModelTransformer($this->bookToIsbnTransformer)
+        ;
 
         $builder->addEventListener(
             FormEvents::POST_SET_DATA,
@@ -80,17 +89,21 @@ class RentType extends AbstractType
             }
         );
 
+
+
         $builder->get('book')->addEventListener(FormEvents::POST_SUBMIT,
         function (FormEvent $event) {
             $form = $event->getForm();
             $data = $form->getData();
-
+//            dd($data);
             $this->formModifier($form->getParent(), $data);
         });
 
         $builder->get('reader')
-            ->addModelTransformer($this->transformer)
+            ->addModelTransformer($this->idToUserTransformer)
         ;
+
+
     }
 
     private function formModifier(FormInterface $form, ?Book $book): void

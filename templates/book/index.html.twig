@@ -3,27 +3,40 @@
 {% block title %}Hello BookController!{% endblock %}
 
 {% block body %}
-    <form method="get">
-        <input type="search" name="q" value="{{ query }}">
-        <select name="field" id="">
-            <option value="title">Tytuł</option>
-            <option value="isbn">ISBN</option>
-        </select>
-        <button type="submit">Szukaj</button>
+    <form method="get" class="form-inline">
+        <div class="form-group mb-2 ">
+            <label for="q" class="sr-only">Fraza</label>
+            <input type="search" class="form-control" id="q" placeholder="Szukaj..." name="q" value="{{ query }}">
+        </div>
+        <div class="form-group mb-2">
+            <label for="label" class="sr-only"></label>
+            <select name="field" id="label" class="form-control">
+                <option value="title">Tytuł</option>
+                <option value="isbn">ISBN</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
     </form>
 
-    <table>
-        <tr>
-            <th>ISBN</th>
-            <th>Tytuł</th>
-            <th>Autorzy</th>
-        </tr>
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ISBN</th>
+                <th>Tytuł</th>
+                <th>Autorzy</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for book in books %}
             <tr>
+                <th>{{ loop.index }}</th>
                 <td>{{ book.isbn }}</td>
-                <td>{{ book.title }}</td>
+                <td><a href="{{ path('app_book_show', {'id': book.id}) }}">{{ book.title }}</a></td>
                 <td>{{ book.authors|join(',') }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

@@ -3,13 +3,26 @@
 {% block title %}Hello RentController!{% endblock %}
 
 {% block body %}
-<table>
+    <a class="btn btn-success btn-block" href="{{ path('admin_rent_new') }}">Nowe wypożyczenie</a>
+    <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Czytelnik</th>
+            <th>Książka</th>
+            <th>Data zwrotu</th>
+            <th></th>
+        </tr>
+    </thead>
     {% for activeRent in activeRents %}
         <tr>
+            <th>{{ loop.index }}</th>
+            <td>{{ activeRent.id }}</td>
             <td>{{ activeRent.reader.email }}</td>
             <td>{{ activeRent.specimen.book.title }}</td>
             <td>
-                {{ activeRent.rentTo|date }}
+                {{ activeRent.rentTo|date('d/m/Y') }}
                 {% if date('now') > activeRent.rentTo %}
                     <span style="color:#ff0000;">Po terminie!</span>
                 {% endif %}

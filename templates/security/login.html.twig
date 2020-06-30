@@ -8,7 +8,7 @@
         <label for="">Login<input type="text" value="{{ last_username }}" name="email"></label>
         <label for="">Hasło<input type="password" name="password"></label>
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button type="submit">Zaloguj się</button>
+        <button class="btn btn-primary btn-block" type="submit">Zaloguj się</button>
     </form>
 {% endblock %}
 

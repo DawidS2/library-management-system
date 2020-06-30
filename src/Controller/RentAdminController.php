@@ -118,7 +118,7 @@ class RentAdminController extends AbstractController
     {
         $isbn = $this->request->request->getInt('isbn');
         // Find book by ISBN
-        $book = $bookRepository->find($isbn);
+        $book = $bookRepository->findOneBy(['isbn' => $isbn]);
         // If book exists and have specimen, get one specimen
         if ($book && $book->getSpecimens()) {
             $specimen = $book->getSpecimens()[0];
