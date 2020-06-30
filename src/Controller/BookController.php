@@ -30,7 +30,7 @@ class BookController extends AbstractController
 
 
     /**
-     * @Route("/book", methods="GET", name="book_index")
+     * @Route("/", methods="GET", name="book_index")
      * @param BookRepository $bookRepository
      * @return Response
      */
@@ -64,8 +64,6 @@ class BookController extends AbstractController
      */
     public function show(Book $book, RentRepository $rentRepository): Response
     {
-
-
         return $this->render('book/show.html.twig', [
             'book' => $book
         ]);
