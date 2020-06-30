@@ -3,14 +3,20 @@
 {% block title %}Hello RentController!{% endblock %}
 
 {% block body %}
-<table>
+<table class="table table-stripped">
+    <tr>
+        <th>#</th>
+        <th>Książka</th>
+        <th>Wypożyczono</th>
+        <th>Termin zwrotu</th>
+    </tr>
     {% for activeRent in activeRents %}
         <tr>
-            <td>{{ activeRent.specimen.book.isbn }}</td>
-            <td>{{ activeRent.specimen.book.title }}</td>
-            <td>{{ activeRent.rentAt|date }}</td>
+            <th>{{ loop.index }}</th>
+            <td><a href="{{ path('app_book_show', {'id': activeRent.specimen.book.id}) }}">{{ activeRent.specimen.book.title }}</a></td>
+            <td>{{ activeRent.rentAt|date('d/m/Y') }}</td>
             <td>
-                {{ activeRent.rentTo|date }}
+                {{ activeRent.rentTo|date('d/m/Y') }}
                 {% if date('now') > activeRent.rentTo %}
                     Minął termin oddania!
                 {% endif %}
