@@ -213,4 +213,18 @@ class Book
 
         return $this;
     }
+
+    public function getNonRentedSpecimens()
+    {
+        $nonRentedSpecimens = [];
+
+        foreach ($this->getSpecimens() as $specimen)
+        {
+            if ($specimen->getLastRent() === null || $specimen->getLastRent()->getIsReturned() === true) {
+                $nonRentedSpecimens[] = $specimen;
+            }
+        }
+
+        return $nonRentedSpecimens;
+    }
 }

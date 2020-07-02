@@ -2,9 +2,14 @@
 
 namespace App\Repository;
 
+use App\Entity\Rent;
 use App\Entity\Specimen;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\FetchMode;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

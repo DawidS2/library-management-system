@@ -9,7 +9,6 @@ use App\Form\DataTransformer\BookToIsbnTransformer;
 use App\Form\DataTransformer\IdToUserTransformer;
 use App\Form\Model\RentFormModel;
 use App\Repository\BookRepository;
-use Cassandra\Date;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -113,7 +112,7 @@ class RentType extends AbstractType
             $specimens = [];
             $disabled = true;
         }else{
-            $specimens = $book->getSpecimens();
+            $specimens = $book->getNonRentedSpecimens();
         }
 
         $form->add('Specimen', EntityType::class, [

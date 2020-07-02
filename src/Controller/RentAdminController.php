@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Rent;
+use App\Entity\Specimen;
 use App\Form\Model\RentFormModel;
 use App\Form\RentType;
 use App\Repository\BookRepository;
 use App\Repository\RentRepository;
+use App\Repository\SpecimenRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
