@@ -41,6 +41,36 @@ class User implements UserInterface
      */
     private $rents;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $surname;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $street;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $apartamentNumber;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=6)
+     */
+    private $zipCode;
+
     public function __construct()
     {
         $this->rents = new ArrayCollection();
@@ -151,6 +181,78 @@ class User implements UserInterface
                 $rent->setReader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function setStreet(string $street): self
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    public function getApartamentNumber(): ?string
+    {
+        return $this->apartamentNumber;
+    }
+
+    public function setApartamentNumber(string $apartamentNumber): self
+    {
+        $this->apartamentNumber = $apartamentNumber;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): self
+    {
+        $this->zipCode = $zipCode;
 
         return $this;
     }
