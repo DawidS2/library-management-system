@@ -78,21 +78,17 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $oldPassword = $data['oldPassword'];
             $newPassword = $data['newPassword']['password'];
             /** @var User $user */
             $user = $this->getUser();
 
-            if ($this->passwordEncoder->isPasswordValid($user, $oldPassword)) {
-                $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
-                $this->addFlash('success', 'Pomyślnie zmieniono hasło');
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $newPassword));
 
-                return $this->redirectToRoute('book_index');
-            }else{
-                $this->addFlash('danger', 'Hasło niepoprawne');
-            }
+            $this->addFlash('success', 'Pomyślnie zmieniono hasło');
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('book_index');
         }
 
         return $this->render('account/change_password.html.twig', [

@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -21,6 +22,8 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(max="50", maxMessage="Nazwa może zawierać 50 znaków")
+//     * @Assert\NotBlank(message="Wpisz tytuł")
      */
     private $name;
 

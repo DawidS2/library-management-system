@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=RentRepository::class)
@@ -31,11 +32,13 @@ class Rent
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(message="Wprowadź poprawną datę")
      */
     private $rentAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(message="Wprowadź poprawną datę")
      */
     private $rentTo;
 

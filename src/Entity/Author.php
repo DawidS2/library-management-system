@@ -6,6 +6,7 @@ use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
@@ -21,10 +22,24 @@ class Author
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Wpisz imię")
+     * @Assert\Length(max="100", maxMessage="Imię może zawierać maxymalnie 100 znaków")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Imię nie może zawierać cyfr"
+     * )
      */
     private $name;
 
     /**
+//     * @Assert\NotBlank(message="Wpisz nazwisko")
+     * @Assert\Length(max="100", maxMessage="Nazwisko może zawierać maksymalnie 100 znaków")
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Nazwisko nie może zawierać cyfr"
+     * )
      * @ORM\Column(type="string", length=100)
      */
     private $surname;

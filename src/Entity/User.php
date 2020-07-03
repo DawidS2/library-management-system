@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,6 +23,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(max="180", maxMessage="Email może zawierać maksymalnie 180 znaków")
+     * @Assert\Email(message="Wpisz poprawny adres email")
      */
     private $email;
 
@@ -43,31 +46,46 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Ta wartość nie może być pusta")
+     * @Assert\Length(max="100", maxMessage="Imię może zawierać maksymalnie 100 znaków")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100)
+//     * @Assert\NotBlank(message="Ta wartość nie może być pusta")
+     * @Assert\Length(max="100", maxMessage="Nazwisko może zawierać maksymalnie 100 znaków")
      */
     private $surname;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Ta wartość nie może być pusta")
+     * @Assert\Length(max="100", maxMessage="Ulica może zawierać maksymalnie 100 znaków")
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="""Ta wartość nie może być pusta")
+     * @Assert\Length(max="10", maxMessage="Numer domu może zawierać maksymalnie 10 znaków")
      */
     private $apartamentNumber;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Ta wartość nie może być pusta")
+     * @Assert\Length(max="100", maxMessage="Miasto może zawierać maksymalnie 100 znaków")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{2}-[0-9]{3}$/",
+     *     match=true,
+     *     message="Wpisz poprawny kod"
+     * )
      */
     private $zipCode;
 

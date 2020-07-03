@@ -31,7 +31,9 @@ class UserType extends AbstractType
         ->add('street', TextType::class)
         ->add('city', TextType::class)
         ->add('apartamentNumber', TextType::class)
-        ->add('zipCode', TextType::class)
+        ->add('zipCode', TextType::class, [
+            'help' => 'np. 00-000'
+        ])
     ;
     }
 
