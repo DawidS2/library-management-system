@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\Type\CustomPasswordType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,12 +19,9 @@ class UserType extends AbstractType
         $builder
             ->add('email', EmailType::class);
 
-        if (null === $builder->getData() && null === $builder->getData()->getId()) {
+        if (null === $builder->getData() || null === $builder->getData()->getId()) {
             $builder
-                ->add('plainPassword', RepeatedType::class, [
-                    'type' => PasswordType::class,
-                    'first_options' => ['label' => 'Hasło'],
-                    'second_options' => ['label' => 'Powtórz hasło'],
+                ->add('plainPassword', CustomPasswordType::class, [
                     'mapped' => false
                 ]);
         }
