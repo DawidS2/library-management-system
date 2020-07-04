@@ -14,9 +14,10 @@ class AddSpecimenType extends AbstractType
     {
         $builder
             ->add('numberOfSpecimens', IntegerType::class, [
+                'label' => 'Liczba egzemplarzy',
                 'constraints' => [
                     new Positive(['message' => 'Ta wartość nie może być ujemna'])
-                ]
+                ],
             ])
         ;
     }

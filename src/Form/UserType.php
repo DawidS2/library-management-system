@@ -43,7 +43,9 @@ class UserType extends AbstractType
         }
 
         $builder
-            ->add('email', EmailType::class);
+            ->add('email', EmailType::class, [
+                'label' => 'Email'
+            ]);
 
 
         if ((null === $builder->getData()
@@ -51,19 +53,31 @@ class UserType extends AbstractType
                 && !$this->security->isGranted('ROLE_ADMIN') ) {
             $builder
                 ->add('plainPassword', CustomPasswordType::class, [
+                    'label' => 'Hasło',
                     'mapped' => false
                 ]);
         }
         $builder
-            ->add('name', TextType::class)
-        ->add('surname', TextType::class)
-        ->add('street', TextType::class)
-        ->add('city', TextType::class)
-        ->add('apartamentNumber', TextType::class)
-        ->add('zipCode', TextType::class, [
-            'help' => 'np. 00-000'
-        ])
-    ;
+            ->add('name', TextType::class, [
+                'label' => 'Imię'
+            ])
+            ->add('surname', TextType::class, [
+                'label' => 'Nazwisko'
+            ])
+            ->add('street', TextType::class, [
+                'label' => 'Ulica'
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Miasto'
+            ])
+            ->add('apartamentNumber', TextType::class, [
+                'label' => 'Numer domu'
+            ])
+            ->add('zipCode', TextType::class, [
+                'label' => 'Kod pocztowy',
+                'help' => 'np. 00-000'
+            ])
+       ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

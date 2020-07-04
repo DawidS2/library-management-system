@@ -12,8 +12,12 @@ class AuthorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('surname')
+            ->add('name', null, [
+                'label' => 'Imię'
+            ])
+            ->add('surname', null, [
+                'label' => 'Nazwisko'
+            ])
         ;
     }
 

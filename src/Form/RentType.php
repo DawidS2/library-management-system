@@ -61,16 +61,22 @@ class RentType extends AbstractType
     {
         $builder
             ->add('book', TextType::class, [
+                'label' => 'Książka',
                 'attr' => ['class' => 'isbn'],
                 'mapped' => false
             ])
             ->add('reader', TextType::class, [
+                'label' => 'Czytelnik'
             ])
         ;
         if (null !== $builder->getData() && null !== $builder->getData()->getId()) {
             $builder
-                ->add('rentTo')
-                ->add('isReturned', CheckboxType::class)
+                ->add('rentTo', null, [
+                    'label' => 'Wypożyczona do'
+                ])
+                ->add('isReturned', CheckboxType::class, [
+                    'label' => 'Czy zwrócona'
+                ])
             ;
         }
 
@@ -120,6 +126,7 @@ class RentType extends AbstractType
         }
 
         $form->add('Specimen', EntityType::class, [
+            'label' => 'Egzemplarz',
             'class' => Specimen::class,
             'choices' => $specimens,
             'choice_label' => 'id',

@@ -16,6 +16,7 @@ class ChangePasswordType extends AbstractType
     {
         $builder
             ->add('oldPassword', PasswordType::class, [
+                'label' => 'Stare hasło',
                 'constraints' => [
                     new UserPassword(
                         [
@@ -24,7 +25,9 @@ class ChangePasswordType extends AbstractType
                     )
                 ]
             ])
-            ->add('newPassword', CustomPasswordType::class)
+            ->add('newPassword', CustomPasswordType::class, [
+                'label' => 'Nowe hasło',
+            ])
         ;
     }
 

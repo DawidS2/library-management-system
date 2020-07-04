@@ -14,8 +14,11 @@ class SearchBookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('query', SearchType::class)
+            ->add('query', SearchType::class, [
+                'label' => ''
+            ])
             ->add('by', ChoiceType::class, [
+                'label' => '',
                 'choices' => [
                     'isbn' => 'ISBN',
                     'title' => 'Title',

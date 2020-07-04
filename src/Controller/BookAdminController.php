@@ -10,6 +10,7 @@ use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -143,10 +144,13 @@ class BookAdminController extends AbstractController
     }
 
     /**
+     * Add new specimens to existing book
+     *
      * @Route("admin/book/{id<\d+>}/add-specimen", methods="GET|POST", name="admin_book_add_specimens")
      * @param Book $book
+     * @return RedirectResponse|Response
      */
-    public function addSpecimens(Book $book)
+    public function addSpecimens(Book $book): Response
     {
         $form = $this->createForm(AddSpecimenType::class);
         $form->handleRequest($this->request);
@@ -159,8 +163,6 @@ class BookAdminController extends AbstractController
                 $specimen->setForRent(true);
                 $specimen->setBook($book);
                 $this->entityManager->persist($specimen);
-
-
             }
 
             $this->entityManager->persist($specimen);

@@ -19,11 +19,20 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('numberOfPages')
-            ->add('isbn')
-            ->add('description')
+            ->add('title', null, [
+                'label' => 'Tytuł'
+            ])
+            ->add('numberOfPages', null, [
+                'label' => 'Numer stron'
+            ])
+            ->add('isbn', null, [
+                'label' => 'ISBN'
+            ])
+            ->add('description', null, [
+                'label' => 'Opis'
+            ])
             ->add('authors', EntityType::class, [
+                'label' => 'Autorzy',
                 'class' => Author::class,
                 'choice_label' =>
                     function(Author $author)
@@ -33,11 +42,13 @@ class BookType extends AbstractType
                 'multiple' => true
             ])
             ->add('categories', EntityType::class, [
+                'label' => 'Kategorie',
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => true
             ])
             ->add('publisher', EntityType::class, [
+                'label' => 'Wydawnictwo',
                 'class' => Publisher::class,
                 'choice_label' => 'name',
             ])
