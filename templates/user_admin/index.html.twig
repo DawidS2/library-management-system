@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Użytkownicy{% endblock %}
+
+{% block body %}
+    <table class="table table-stripped">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>email</th>
+            <th>Uprawnienia</th>
+            <th></th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles|join(', ') }}</td>
+                <td><a href="{{ path('admin_user_edit', {'id': user.id}) }}">Edytuj</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
