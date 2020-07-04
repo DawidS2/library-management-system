@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\Category;
+use App\Entity\Publisher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -22,7 +23,6 @@ class BookType extends AbstractType
             ->add('numberOfPages')
             ->add('isbn')
             ->add('description')
-//            ->add('cover')
             ->add('authors', EntityType::class, [
                 'class' => Author::class,
                 'choice_label' =>
@@ -37,15 +37,23 @@ class BookType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true
             ])
-            ->add('numberOfSpecimen', IntegerType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new PositiveOrZero([
-                        'message' => "Wpisz poprawną wartość"
-                    ])
-                ]
+            ->add('publisher', EntityType::class, [
+                'class' => Publisher::class,
+                'choice_label' => 'name',
             ])
         ;
+
+        if (null === $builder->getData() || null === $builder->getData()->getId()) {
+            $builder
+                ->add('numberOfSpecimen', IntegerType::class, [
+                    'mapped' => false,
+                    'constraints' => [
+                        new PositiveOrZero([
+                            'message' => "Wpisz poprawną wartość"
+                        ])
+                    ]
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -69,6 +69,12 @@ class Book
      */
     private $specimens;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Publisher::class, inversedBy="books")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $publisher;
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
@@ -236,5 +242,17 @@ class Book
         }
 
         return $nonRentedSpecimens;
+    }
+
+    public function getPublisher(): ?Publisher
+    {
+        return $this->publisher;
+    }
+
+    public function setPublisher(?Publisher $publisher): self
+    {
+        $this->publisher = $publisher;
+
+        return $this;
     }
 }
