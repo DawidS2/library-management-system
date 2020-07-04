@@ -11,6 +11,7 @@
             <th scope="col">Autorzy</th>
             <th scope="col">Liczba egzemplarzy</th>
             <th scope="col"></th>
+            <th></th>
         </tr>
         </thead>
         {% for book in books %}
@@ -31,6 +32,7 @@
                     Liczba egzemplarzy: {{ book.specimens|length }}
                 </td>
                 <td><a href="{{ path('admin_book_edit', {'id': book.id}) }}">Edytuj</a></td>
+                <td><a href="{{ path('admin_book_add_specimens', {'id': book.id}) }}">Dodaj egzemplarze</a></td>
             </tr>
         {% endfor %}
     </table>

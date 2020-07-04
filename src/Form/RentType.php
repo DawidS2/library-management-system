@@ -11,6 +11,7 @@ use App\Form\Model\RentFormModel;
 use App\Repository\BookRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -67,7 +68,10 @@ class RentType extends AbstractType
             ])
         ;
         if (null !== $builder->getData() && null !== $builder->getData()->getId()) {
-            $builder->add('rentTo');
+            $builder
+                ->add('rentTo')
+                ->add('isReturned', CheckboxType::class)
+            ;
         }
 
         $builder->get('book')

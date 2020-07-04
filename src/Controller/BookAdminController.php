@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\Specimen;
+use App\Form\AddSpecimenType;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -138,6 +139,39 @@ class BookAdminController extends AbstractController
     {
         return $this->render('book_admin/show.html.twig', [
             'book' => $book,
+        ]);
+    }
+
+    /**
+     * @Route("admin/book/{id<\d+>}/add-specimen", methods="GET|POST", name="admin_book_add_specimens")
+     * @param Book $book
+     */
+    public function addSpecimens(Book $book)
+    {
+        $form = $this->createForm(AddSpecimenType::class);
+        $form->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $numberOfSpecimens = $form->getData()['numberOfSpecimens'];
+
+            for ($i = 0; $i<$numberOfSpecimens; $i++) {
+                $specimen = new Specimen();
+                $specimen->setForRent(true);
+                $specimen->setBook($book);
+                $this->entityManager->persist($specimen);
+
+
+            }
+
+            $this->entityManager->persist($specimen);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Dodano egzemplarze');
+            return $this->redirectToRoute('admin_book_index');
+        }
+
+        return $this->render('book_admin/add_specimens.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

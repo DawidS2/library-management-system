@@ -236,7 +236,7 @@ class Book
 
         foreach ($this->getSpecimens() as $specimen)
         {
-            if ($specimen->getLastRent() === null || $specimen->getLastRent()->getIsReturned() === true) {
+            if ($specimen->getLastRent() === null || $specimen->getLastRent()->getIsReturned() === true && $specimen->getForRent() === true) {
                 $nonRentedSpecimens[] = $specimen;
             }
         }
