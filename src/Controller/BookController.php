@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Form\SearchBookType;
 use App\Repository\BookRepository;
 use App\Repository\RentRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,14 +19,19 @@ class BookController extends AbstractController
      * @var Request
      */
     private $request;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * BookController constructor.
      * @param RequestStack $request
      */
-    public function __construct(RequestStack $request)
+    public function __construct(RequestStack $request, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
+        $this->paginator = $paginator;
     }
 
 
@@ -36,6 +42,7 @@ class BookController extends AbstractController
      */
     public function index(BookRepository $bookRepository): Response
     {
+        $page = $this->request->query->getInt('page', 1);
         $query = $this->request->get('q', '');
         $field = $this->request->get('field', 'title');
 
@@ -49,6 +56,8 @@ class BookController extends AbstractController
             default:
                 $books = $bookRepository->findAll();
         }
+
+        $books = $this->paginator->paginate($books, $page, 10);
 
         return $this->render('book/index.html.twig', [
             'books' => $books,

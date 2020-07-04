@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,16 +24,21 @@ class CategoryAdminController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * CategoryAdminController constructor.
      * @param RequestStack $request
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(RequestStack $request, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
         $this->entityManager = $entityManager;
+        $this->paginator = $paginator;
     }
 
 
@@ -45,7 +51,10 @@ class CategoryAdminController extends AbstractController
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
+        $page = $this->request->query->getInt('page', 1);
+
         $categories = $categoryRepository->findAll();
+        $categories = $this->paginator->paginate($categories, $page, 10);
 
         return $this->render('category_admin/index.html.twig', [
             'categories' => $categories,

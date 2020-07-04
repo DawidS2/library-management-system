@@ -7,6 +7,7 @@ use App\Entity\Specimen;
 use App\Form\BookType;
 use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,16 +23,21 @@ class BookAdminController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * BookAdminController constructor.
      * @param RequestStack $request
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(RequestStack $request, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
         $this->entityManager = $entityManager;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -43,7 +49,12 @@ class BookAdminController extends AbstractController
      */
     public function index(BookRepository $bookRepository): Response
     {
+        $page = $this->request->query->getInt('page', 1);
+
         $books = $bookRepository->findAll();
+        $books = $this->paginator->paginate(
+            $books, $page, 10
+        );
 
         return $this->render('book_admin/index.html.twig', [
             'books' => $books,

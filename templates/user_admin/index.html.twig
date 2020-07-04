@@ -7,7 +7,7 @@
         <tr>
             <th>#</th>
             <th>ID</th>
-            <th>email</th>
+            <th>Email</th>
             <th>Uprawnienia</th>
             <th></th>
         </tr>
@@ -21,4 +21,7 @@
             </tr>
         {% endfor %}
     </table>
+    <div class="navigation">
+        {{ knp_pagination_render(users) }}
+    </div>
 {% endblock %}

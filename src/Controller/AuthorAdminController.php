@@ -6,6 +6,8 @@ use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,16 +24,21 @@ class AuthorAdminController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * AuthorAdminController constructor.
      * @param RequestStack $request
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(RequestStack $request, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
         $this->entityManager = $entityManager;
+        $this->paginator = $paginator;
     }
 
 
@@ -44,7 +51,10 @@ class AuthorAdminController extends AbstractController
      */
     public function index(AuthorRepository $authorRepository): Response
     {
+        $page = $this->request->query->getInt('page', 1);
+
         $authors = $authorRepository->findAll();
+        $authors = $this->paginator->paginate($authors, $page, 10);
 
         return $this->render('author_admin/index.html.twig', [
             'authors' => $authors,

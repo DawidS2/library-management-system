@@ -6,6 +6,7 @@ use App\Entity\Publisher;
 use App\Form\PublisherType;
 use App\Repository\PublisherRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,16 +23,21 @@ class PublisherAdminController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * PublisherAdminController constructor.
      * @param RequestStack $request
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(RequestStack $request, EntityManagerInterface $entityManager)
+    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
         $this->entityManager = $entityManager;
+        $this->paginator = $paginator;
     }
 
 
@@ -42,7 +48,10 @@ class PublisherAdminController extends AbstractController
      */
     public function index(PublisherRepository $publisherRepository)
     {
+        $page = $this->request->query->getInt('page', 1);
+
         $publishers = $publisherRepository->findAll();
+        $publishers = $this->paginator->paginate($publishers, $page, 10);
 
         return $this->render('publisher_admin/index.html.twig', [
             'publishers' => $publishers,

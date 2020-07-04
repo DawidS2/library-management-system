@@ -11,6 +11,7 @@ use App\Repository\RentRepository;
 use App\Repository\SpecimenRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -32,6 +33,10 @@ class RentAdminController extends AbstractController
      * @var UrlGeneratorInterface
      */
     private $urlGenerator;
+    /**
+     * @var PaginatorInterface
+     */
+    private $paginator;
 
     /**
      * RentController constructor.
@@ -39,11 +44,12 @@ class RentAdminController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param UrlGeneratorInterface $urlGenerator
      */
-    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
+    public function __construct(RequestStack $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, PaginatorInterface $paginator)
     {
         $this->request = $request->getCurrentRequest();
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -147,7 +153,10 @@ class RentAdminController extends AbstractController
      */
     public function activeRentsIndex(RentRepository $rentRepository)
     {
+        $page = $this->request->query->getInt('page', 1);
+
         $rents = $rentRepository->findBy(['isReturned' => false]);
+        $rents = $this->paginator->paginate($rents, $page, 10);
 
         return $this->render("rent_admin/index.html.twig", [
             'activeRents' => $rents,
