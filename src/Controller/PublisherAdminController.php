@@ -8,6 +8,7 @@ use App\Repository\PublisherRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,11 +43,13 @@ class PublisherAdminController extends AbstractController
 
 
     /**
+     * List of publishers
+     *
      * @Route("/admin/publisher", methods="GET|POST", name="admin_publisher_index")
      * @param PublisherRepository $publisherRepository
      * @return Response
      */
-    public function index(PublisherRepository $publisherRepository)
+    public function index(PublisherRepository $publisherRepository): Response
     {
         $page = $this->request->query->getInt('page', 1);
 
@@ -59,9 +62,11 @@ class PublisherAdminController extends AbstractController
     }
 
     /**
+     * New publisher
+     *
      * @Route("/admin/publisher/new", methods="GET|POST", name="admin_publisher_new")
      */
-    public function new()
+    public function new(): Response
     {
         $form = $this->createForm(PublisherType::class);
         $form->handleRequest($this->request);
@@ -83,10 +88,13 @@ class PublisherAdminController extends AbstractController
     }
 
     /**
+     * Edit publisher
+     *
      * @Route("admin/publisher/{id<\d+>}/edit", methods="GET|POST", name="admin_publisher_edit")
      * @param Publisher $publisher
+     * @return RedirectResponse|Response
      */
-    public function edit(Publisher $publisher)
+    public function edit(Publisher $publisher): Response
     {
         $form = $this->createForm(PublisherType::class, $publisher);
         $form->handleRequest($this->request);

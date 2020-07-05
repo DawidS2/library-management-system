@@ -66,7 +66,7 @@ class CategoryAdminController extends AbstractController
      *
      * @Route("admin/category/new", methods="GET|POST", name="admin_category_new")
      */
-    public function new()
+    public function new(): Response
     {
         $form = $this->createForm(CategoryType::class);
         $form->handleRequest($this->request);
@@ -96,7 +96,7 @@ class CategoryAdminController extends AbstractController
      * @param Category $category
      * @return RedirectResponse|Response
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($this->request);

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-
+    Książka - szczegóły
 {% endblock %}
 
 {% block body %}
@@ -15,6 +15,7 @@
                 <li class="list-group-item"><span class="font-weight-bold">Stron: </span>{{ book.numberOfPages }}</li>
                 <li class="list-group-item"><span class="font-weight-bold">Kategorie: </span>{{ book.categories|join(', ') }}</li>
                 <li class="list-group-item"><span class="font-weight-bold">Autorzy: </span>{{ book.authors|join(', ') }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Wydawca: </span>{{ book.publisher.name }}</li>
                 <li class="list-group-item"><span class="font-weight-bold">Opis: </span>{{ book.description }}</li>
                 <li class="list-group-item"><span class="font-weight-bold">Liczba egzemplarzy: </span>{{ book.specimens|length }}</li>
             </ul>

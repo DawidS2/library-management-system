@@ -57,7 +57,7 @@ class RentAdminController extends AbstractController
      *
      * @Route("/admin/rent/new", methods="GET|POST", name="admin_rent_new")
      */
-    public function new()
+    public function new(): Response
     {
         $form = $this->createForm(RentType::class, null, [
             'attr' => [
@@ -72,13 +72,13 @@ class RentAdminController extends AbstractController
             $rent
                 ->setIsReturned(false)
                 ->setRentAt(new DateTime())
-                ->setRentTo(new DateTime('now + 30 days'))
+                ->setRentTo(new DateTime())
                 ;
 
             $this->entityManager->persist($rent);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('admin_rent_edit', ['id' => $rent->getId()]);
+            return $this->redirectToRoute('admin_rent_index_active');
 
         }
         return $this->render('rent_admin/new.html.twig', [
@@ -93,12 +93,8 @@ class RentAdminController extends AbstractController
      * @param Rent $rent
      * @return Response
      */
-    public function edit(Rent $rent)
+    public function edit(Rent $rent): Response
     {
-        $rentFormModel = new RentFormModel();
-        $rentFormModel->Specimen = $rent->getSpecimen();
-        $rentFormModel->reader = $rent->getReader();
-
         $form = $this->createForm(RentType::class, $rent, [
             'attr' => [
                 'data-url' => $this->urlGenerator->generate('admin_rent_get_speciments_input')
@@ -122,7 +118,7 @@ class RentAdminController extends AbstractController
      * @param BookRepository $bookRepository
      * @return Response
      */
-    public function getSpecimensInput(BookRepository $bookRepository)
+    public function getSpecimensInput(BookRepository $bookRepository): Response
     {
         $isbn = $this->request->request->getInt('isbn');
         // Find book by ISBN
@@ -151,7 +147,7 @@ class RentAdminController extends AbstractController
      * @param RentRepository $rentRepository
      * @return Response
      */
-    public function activeRentsIndex(RentRepository $rentRepository)
+    public function activeRentsIndex(RentRepository $rentRepository): Response
     {
         $page = $this->request->query->getInt('page', 1);
 

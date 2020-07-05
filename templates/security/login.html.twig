@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Logowanie
+{% endblock %}
+
 {% block body %}
     {% if error %}
         {{ error.messageKey|trans(error.messageData, 'security') }}
@@ -12,7 +16,5 @@
     </form>
 {% endblock %}
 
-{% block title %}
 
-{% endblock %}
 

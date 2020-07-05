@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -47,9 +48,11 @@ class AccountController extends AbstractController
 
 
     /**
+     * Edit account data
+     *
      * @Route("/account", name="account_edit_data")
      */
-    public function editData()
+    public function editData(): Response
     {
         $user = $this->getUser();
 
@@ -69,9 +72,11 @@ class AccountController extends AbstractController
     }
 
     /**
+     * Change password
+     *
      * @Route("/account/change-password", methods="GET|POST", name="account_change_password")
      */
-    public function changePassword()
+    public function changePassword(): Response
     {
         $form = $this->createForm(ChangePasswordType::class);
         $form->handleRequest($this->request);

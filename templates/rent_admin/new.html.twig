@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Wypożyczenie - edytuj
+{% endblock %}
+
 {% block body %}
 {{ include('rent_admin/_form.html.twig', {button_value: "Wypożycz"}) }}
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}

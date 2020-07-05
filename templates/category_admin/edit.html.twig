@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Kategria - edytuj
+{% endblock %}
+
 {% block body %}
     {{ include('category_admin/_form.html.twig', { button_value: 'Edytuj' }) }}
 {% endblock %}

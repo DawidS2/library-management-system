@@ -36,6 +36,8 @@ class BookController extends AbstractController
 
 
     /**
+     * List of books
+     *
      * @Route("/", methods="GET", name="book_index")
      * @param BookRepository $bookRepository
      * @return Response
@@ -66,6 +68,8 @@ class BookController extends AbstractController
     }
 
     /**
+     * SHow book details
+     *
      * @Route("/book/{id<\d+>}")
      * @param Book $book
      * @param RentRepository $rentRepository
