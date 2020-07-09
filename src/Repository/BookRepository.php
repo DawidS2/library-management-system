@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,15 +20,55 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
-    public function findByField(String $query, string $field)
+    public function findAllWithSearch(string $query)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.' . $field . ' LIKE :query')
+        $qb = $this->createQueryBuilder('b')
+            ->leftJoin('b.authors', 'a')
+            ->addSelect('a')
+            ->andWhere('b.title LIKE :query OR b.isbn LIKE :query OR a.name LIKE :query OR a.surname LIKE :query')
             ->setParameter(':query', '%' . $query . '%')
             ->getQuery()
             ->getResult()
-        ;
+            ;
+
+        return $qb;
     }
+
+//    private function findByField(callable $callback)
+//    {
+//        $qb =  $this->createQueryBuilder('b');
+//
+//        return $callback($qb)
+//            ->leftJoin('b.authors', 'authors')
+//            ->addSelect('authors')
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
+//
+//    public function findByIsbn(int $isbn)
+//    {
+//        return $this->findByField(
+//            function (QueryBuilder $queryBuilder) use ($isbn) {
+//                return $queryBuilder
+//                    ->andWhere('b.isbn LIKE :query')
+//                    ->setParameter(':query', '%' . $isbn . '%')
+//                    ;
+//            }
+//        );
+//    }
+//
+//    public function findByTitle(string $title)
+//    {
+//        return $this->findByField(
+//            function (QueryBuilder $queryBuilder) use ($title) {
+//                return $queryBuilder
+//                    ->andWhere('b.title LIKE :query')
+//                    ->setParameter(':query', '%' . $title . '%')
+//                    ;
+//            }
+//        );
+//    }
 
     // /**
     //  * @return Book[] Returns an array of Book objects

@@ -46,18 +46,8 @@ class BookController extends AbstractController
     {
         $page = $this->request->query->getInt('page', 1);
         $query = $this->request->get('q', '');
-        $field = $this->request->get('field', 'title');
 
-        switch ($field) {
-            case 'isbn' :
-                $books = $bookRepository->findByField($query, 'isbn');
-                break;
-            case 'title' :
-                $books = $bookRepository->findByField($query, 'title');
-                break;
-            default:
-                $books = $bookRepository->findAll();
-        }
+        $books = $bookRepository->findAllWithSearch($query);
 
         $books = $this->paginator->paginate($books, $page, 10);
 
