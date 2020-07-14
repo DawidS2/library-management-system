@@ -165,7 +165,6 @@ class BookAdminController extends AbstractController
                 $this->entityManager->persist($specimen);
             }
 
-            $this->entityManager->persist($specimen);
             $this->entityManager->flush();
 
             $this->addFlash('success', 'Dodano egzemplarze');

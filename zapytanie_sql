@@ -1,0 +1,12 @@
+SELECT *
+FROM specimen s
+LEFT JOIN rent r
+ON s.id=r.specimen_id
+	AND r.id = (
+        SELECT rent.id
+        FROM rent
+        WHERE rent.specimen_id = s.id
+        ORDER BY rent.id
+        DESC LIMIT 1
+    )
+WHERE s.book_id = 7

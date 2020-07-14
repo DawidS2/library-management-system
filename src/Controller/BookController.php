@@ -27,6 +27,7 @@ class BookController extends AbstractController
     /**
      * BookController constructor.
      * @param RequestStack $request
+     * @param PaginatorInterface $paginator
      */
     public function __construct(RequestStack $request, PaginatorInterface $paginator)
     {
@@ -46,6 +47,7 @@ class BookController extends AbstractController
     {
         $page = $this->request->query->getInt('page', 1);
         $query = $this->request->get('q', '');
+//        dd($bookRepository->findSpecimensByBookId(7));
 
         $books = $bookRepository->findAllWithSearch($query);
 
@@ -61,14 +63,15 @@ class BookController extends AbstractController
      * SHow book details
      *
      * @Route("/book/{id<\d+>}")
-     * @param Book $book
-     * @param RentRepository $rentRepository
+     * @param int $id
+     * @param BookRepository $bookRepository
      * @return Response
      */
-    public function show(Book $book, RentRepository $rentRepository): Response
+    public function show(int $id, BookRepository $bookRepository): Response
     {
+        $book = $bookRepository->findBookById($id);
         return $this->render('book/show.html.twig', [
-            'book' => $book
+            'book' => $book,
         ]);
     }
 }

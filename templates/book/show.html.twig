@@ -9,22 +9,39 @@
     <table class="table table-stripped">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Do wypożyczenia</th>
+            <th scope="col"></th>
             <th scope="col">Data zwrotu</th>
         </tr>
-    {% for specimen in book.specimens %}
-        <tr>
-            <th>{{ loop.index }}</th>
+
+        {% for specimen in book.specimens %}
+            <tr>
+                <th>{{ loop.index }}</th>
+                <td>
+                    {% if specimen.forRent == false %}
+                        Nie wypożycza się
+                    {% endif %}
+                </td>
+                <td>
+                    {% if specimen.rents[0] is defined %}
+                        {{ specimen.rents[0].rentTo|date("d/m/Y") }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+{#    {% for specimen in book.specimens %}#}
+{#        <tr>#}
+{#            <th>{{ loop.index }}</th>#}
 {#            <td>{{ specimen.id }}</td>#}
-            <td>{{ specimen.forRent ? "Tak"  : "Nie wypożycza się" }}</td>
-            <td>
-                {% if specimen.lastRent is not null and not specimen.lastRent.isReturned %}
-                    {{ specimen.lastRent.rentTo|date("d/m/Y") }}
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
+{#            <td>{{ specimen.forRent ? "Tak"  : "Nie wypożycza się" }}</td>#}
+{#            <td>#}
+{#                {% if specimen.lastRent is not null and not specimen.lastRent.isReturned %}#}
+{#                    {{ specimen.lastRent.rentTo|date("d/m/Y") }}#}
+{#                {% endif %}#}
+{#            </td>#}
+{#        </tr>#}
+{#    {% endfor %}#}
     </table>
+
 {% endblock %}
 
 {% block title %}
